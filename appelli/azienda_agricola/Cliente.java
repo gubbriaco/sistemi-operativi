@@ -26,7 +26,7 @@ public class Cliente extends Thread {
 			aa.pagamento(numeroSacchetti);
 			System.out.println("Il cliente " + id+ "  sta pagando..");
 			Thread.sleep(TEMPO_RITIRO*1000);
-			System.out.println("Il cliente " + id+ " ha pagato " + numeroSacchetti*aa.COSTO_SACCHETTO + " euro");
+			System.out.println("Il cliente " + id+ " ha pagato " + numeroSacchetti*AziendaAgricola.COSTO_SACCHETTO + " euro");
 			
 			System.out.println("Il cliente " + id+ " sta andando in magazzino a ritirare i sacchetti.");
 			System.out.println("Il cliente " + id+ " sta ritirando i sacchetti..");
