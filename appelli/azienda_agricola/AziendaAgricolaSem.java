@@ -44,7 +44,7 @@ public class AziendaAgricolaSem extends AziendaAgricola {
 	}
 	
 	
-	public static void main(String...strings) {
+	public static void main(String...strings) throws InterruptedException {
 		AziendaAgricola aa = new AziendaAgricolaSem(200);
 		aa.test(100);
 	}

@@ -61,7 +61,7 @@ public class Persona extends Thread {
 	
 	
 	@Override public String toString() {
-		return "Persona " + id; 
+		return "cliente " + id; 
 	}
 
 }

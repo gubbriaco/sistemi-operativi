@@ -25,17 +25,23 @@ public abstract class AziendaAgricola {
 	public abstract void carica() throws InterruptedException;
 	
 	
-	public void test(int numeroClienti) {
+	public void test(int numeroClienti) throws InterruptedException {
+		
 		Thread magazziniere = new Magazziniere(this);
+		magazziniere.setDaemon(true);
 		magazziniere.start();
 		
 		Thread[] clienti = new Cliente[numeroClienti];
-		
 		for(int i=0;i<numeroClienti;++i) {
-			clienti[i] = new Cliente(this,i);
+			clienti[i] = new Cliente(this, i);
 			clienti[i].start();
 		}
-		System.out.println("L'azienda agricola ha incassato " + incasso);
+		
+		for(int i=0;i<numeroClienti;++i)
+			clienti[i].join();
+		
+		System.out.println("******* L'azienda agricola ha incassato " + incasso + " euro *******");
+	
 	}
 	
 	

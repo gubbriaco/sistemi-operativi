@@ -26,7 +26,7 @@ public class BarSemaphore extends Bar {
 		mutex.acquire();
 		
 		if( numeroPostiLiberi[CASSA] == 0 )
-			operazione = CASSA;
+			operazione = BANCONE;
 		else if( numeroPostiLiberi[BANCONE] == 0 )
 			operazione = CASSA;
 		else if( numeroPersoneInFila[CASSA] <= numeroPersoneInFila[BANCONE] )
