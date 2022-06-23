@@ -1,0 +1,31 @@
+private static Semaphore A = new Semaphore(1);
+	private static Semaphore B = new Semaphore(0);
+	
+	public static void main(String...strings) throws InterruptedException {
+		while(true) {
+			new Thread(new A()).start();
+			new Thread(new B()).start();
+			Thread.sleep(100);
+		}
+	}
+	
+	
+	private static class A implements Runnable {
+		@Override public void run() {
+			try {
+				
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private static class B implements Runnable {
+		@Override public void run() {
+			try {
+				
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
