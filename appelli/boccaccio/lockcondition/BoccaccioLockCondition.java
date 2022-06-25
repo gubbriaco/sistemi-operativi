@@ -1,5 +1,6 @@
 package boccaccio.lockcondition;
 
+import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,36 +10,49 @@ import boccaccio.Boccaccio;
 public class BoccaccioLockCondition extends Boccaccio {
 	
 	private Lock l = new ReentrantLock();
-	private Condition[] possoPrendere = new Condition[this.dimensioneBoccaccio];
-	private Condition riempito = l.newCondition();
+	private Condition[] caramelleCond;
+	private Condition riempi = l.newCondition();
 	
-	private int bambiniChePiangono = 0;
+	private static int i = 0, indice = -1;
+	
+	
+	private LinkedList<Thread> bambini, piangenti; 
 
 	public BoccaccioLockCondition(int dimensioneBoccaccio, int numeroColoriDiversi) {
 		super(dimensioneBoccaccio, numeroColoriDiversi);
 		
-		for(int i=0;i<this.dimensioneBoccaccio;++i)
-			possoPrendere[i] = l.newCondition();
+		caramelleCond = new Condition[dimensioneBoccaccio];
+		for(int i=0;i<caramelleCond.length;++i)
+			caramelleCond[i] = l.newCondition();
+		
+		bambini = new LinkedList<>();
+		piangenti = new LinkedList<>();
 	}
 
+	@SuppressWarnings("finally")
 	@Override public boolean prendi(int c) throws InterruptedException {
-		Thread bambino = Thread.currentThread();
-		boolean presa = true;
 		l.lock();
+		boolean presa = true;
 		try {
 			
-			while(this.caramelle[c] == 0)
-			
-			if(this.caramelle[c]==0) {
-				presa = false;
-				bambiniChePiangono++;
-				System.out.println("Caramelle di colore " + c + " terminate!");
+			if(c==0) {
+				indice = (i+1)%33;
+				i++;
+			}else if(c==1) {
+				indice = (i+33)%66;
+				i++;
+			}else if(c==2) {
+				indice = (i+66)%99;
+				i++;
 			}
 			
-
-			System.out.println(bambino.toString() + " sta prendendo una caramella di colore " + c);
-			this.caramelle[c]--;
-			System.out.println(this.toString());
+			if(caramelle[indice] == 0)
+				presa = false;
+			else
+				caramelle[indice]--;
+			
+			Thread bambino = Thread.currentThread();
+			bambini.addLast(bambino);
 			
 		}finally {
 			l.unlock();
@@ -48,11 +62,14 @@ public class BoccaccioLockCondition extends Boccaccio {
 
 	@Override public void piangi() throws InterruptedException {
 		l.lock();
-		Thread bambino = Thread.currentThread();
+		
 		try {
 			
-			System.out.println(bambino.toString() + " sta piangendo..");
-			riempito.signal();
+			Thread bambino = Thread.currentThread();
+			piangenti.addLast(bambino);
+			
+			while(caramelle[indice]==0 || !bambini.getFirst().equals(bambino))
+				caramelleCond[indice].await();
 			
 		}finally {
 			l.unlock();
@@ -61,32 +78,16 @@ public class BoccaccioLockCondition extends Boccaccio {
 
 	@Override public void riempi() throws InterruptedException {
 		l.lock();
-		Thread addetto = Thread.currentThread();
+		
 		try {
 			
-			while (bambiniChePiangono<3)
-                riempito.await();
-			
-			System.out.println("Prima di riempire: " + this.toString());
-			System.out.println(addetto.toString() + " sta riempiendo il boccaccio di caramelle..");
-			
-			riempiBoccaccio();
-			riempito.signalAll();
-			
-			System.out.println("Boccaccio riempito.");
-			System.out.println("Dopo aver riempito: " + this.toString());
+			caramelleCond[indice].signalAll();
 			
 		}finally {
 			l.unlock();
 		}
 	}
 	
-	private void riempiBoccaccio() {
-		numeroDiCaramellePerColore = dimensioneBoccaccio/numeroColoriDiversi;
-		for(int i=0;i<numeroColoriDiversi;++i)
-			caramelle[i] = numeroDiCaramellePerColore;
-	}
-
 	
 	public static void main(String...strings) {
 		int dimensioneBoccaccio = 100;
@@ -96,5 +97,6 @@ public class BoccaccioLockCondition extends Boccaccio {
 		boccaccio.test(numeroBambini);
 		System.out.println("******* Le caramelle rimanenti sono: " + boccaccio.toString() + " *******");
 	}
+	
 	
 }

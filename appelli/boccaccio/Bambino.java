@@ -15,12 +15,11 @@ public class Bambino extends Thread {
 	@Override public void run() {
 		try {
 			
-			 while (true){
-	                boolean preso=boccaccio.prendi(colore);
-	                if(!preso)
-	                    boccaccio.piangi();
-			 }
-			
+			boolean preso = boccaccio.prendi(colore);
+	        if(!preso) {
+	        	boccaccio.piangi();
+	        	boccaccio.prendi(colore);
+	        }
 		}catch(InterruptedException e) {
 			e.printStackTrace();
 		}

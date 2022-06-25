@@ -57,9 +57,6 @@ public abstract class Boccaccio {
 		
 		Random random;
 		
-		Thread addetto = new Addetto(this);
-		addetto.start();
-		
 		Thread[] bambini = new Bambino[numeroBambini];
 		for(int i=0;i<numeroBambini;++i) {
 			random = new Random();
@@ -68,6 +65,9 @@ public abstract class Boccaccio {
 			System.out.println(bambini[i].toString() + " ha deciso di prendere una caramella di colore " + coloreCaramella);
 			bambini[i].start();
 		}
+		
+		Thread addetto = new Addetto(this);
+		addetto.start();
 		
 	}
 	
