@@ -11,6 +11,7 @@ public class BoccaccioLockCondition extends Boccaccio {
 	
 	private Lock l = new ReentrantLock();
 	private Condition[] caramelleCond;
+	@SuppressWarnings("unused")
 	private Condition riempi = l.newCondition();
 	
 	private static int i = 0, indice = -1;
