@@ -23,10 +23,10 @@ public class Addetto extends Thread {
 			while(true) {
 				
 				l.inizia(t);
-				System.out.println("Il " + this.toString() + " sta ripopolando il " + l.toString() + "..");
+				System.out.println("L' " + this.toString() + " sta ripopolando il " + l.toString() + "..");
 				stoRipopolando();
 				l.finisci(t);
-				System.out.println("Il " + this.toString() + " ha terminato di ripopolare il " + l.toString() + ".");
+				System.out.println("L' " + this.toString() + " ha terminato di ripopolare il " + l.toString() + ".");
 				miAllontano();
 				
 			}
@@ -36,7 +36,7 @@ public class Addetto extends Thread {
 		}
 	}
 	
-	private final static int MIN_TEMPO_RIPOPOLAMENTO = 30, MAX_TEMPO_RIPOPOLAMENTO = 60, TEMPO_ALLONTAMENTO = 30; 
+	private final static int MIN_TEMPO_RIPOPOLAMENTO = 300, MAX_TEMPO_RIPOPOLAMENTO = 600, TEMPO_ALLONTAMENTO = 300; 
 	private Random random;
 	private void stoRipopolando() throws InterruptedException {
 		random = new Random();

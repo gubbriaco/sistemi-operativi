@@ -38,7 +38,7 @@ public class Pescatore extends Thread {
 		}
 	}
 	
-	private final static int MIN_TEMPOPESCA = 20, MAX_TEMPO_PESCA = 80, TEMPO_ALLONTANAMENTO = 10;
+	private final static int MIN_TEMPOPESCA = 200, MAX_TEMPO_PESCA = 800, TEMPO_ALLONTANAMENTO = 100;
 	private Random random;
 	private void stoPescando() throws InterruptedException {
 		random = new Random();
