@@ -1,16 +1,16 @@
 package PROVE3;
 
-import java.util.concurrent.Semaphore;
-
-public class Prova33 {
+public class Prova333 {
 	
-	private static Semaphore sem = new Semaphore(4);
-	
-	public static void main(String...strings) {
+	public static void main(String...strings) throws InterruptedException {
 		MyThread[] threads = new MyThread[10];
 		for(int i=0;i<threads.length;++i) {
 			threads[i] = new MyThread(i);
 			threads[i].start();
+		}
+		for(int i=threads.length-1;i>0;--i) {
+			threads[i].join();
+			System.out.println("T" + threads[i].id + " " + threads[i].getState());
 		}
 	}
 
@@ -28,9 +28,8 @@ public class Prova33 {
 		
 		@Override public void run() {
 			try {
-				if(id%2==0)
-					sem.acquire();
 				System.out.println("T" + id + " " + this.getState());
+				Thread.sleep(1);
 			}catch(InterruptedException e) {
 				e.printStackTrace();
 			}
