@@ -9,5 +9,6 @@
 	<classpathentry kind="src" path="banca"/>
 	<classpathentry kind="src" path="combinazioni-lettere"/>
 	<classpathentry kind="src" path="produttore-consumatore"/>
+	<classpathentry kind="src" path="APPELLO-08072022"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
