@@ -1,4 +1,4 @@
-package esercizio4.lockcondition;
+package esercizio4.A.lockcondition;
 
 import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import esercizio4.Galleria;
 
-public class GalleriaLC extends Galleria {
+public class GalleriaA_LC extends Galleria {
 	
 	private Lock l = new ReentrantLock();
 	
@@ -20,7 +20,7 @@ public class GalleriaLC extends Galleria {
 	private LinkedList<Thread> in_galleria;
 
 	@SuppressWarnings("unchecked")
-	public GalleriaLC(int capienza, int numero_guide, int numero_visitatori_per_guida) {
+	public GalleriaA_LC(int capienza, int numero_guide, int numero_visitatori_per_guida) {
 		super(capienza, numero_guide, numero_visitatori_per_guida);
 		
 		guida = new Condition[numero_guide];
@@ -139,7 +139,7 @@ public class GalleriaLC extends Galleria {
 	
 	public static void main(String...strings) {
 		final int CAPIENZA_GALLERIA = 200, NUMERO_GUIDE = 5, NUMERO_VISITATORI_PER_GUIDA = 20;
-		Galleria galleria = new GalleriaLC(CAPIENZA_GALLERIA, NUMERO_GUIDE, NUMERO_VISITATORI_PER_GUIDA);
+		Galleria galleria = new GalleriaA_LC(CAPIENZA_GALLERIA, NUMERO_GUIDE, NUMERO_VISITATORI_PER_GUIDA);
 		final int NUMERO_VISITATORI = 300;
 		galleria.test(NUMERO_VISITATORI);
 	}

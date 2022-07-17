@@ -10,5 +10,6 @@
 	<classpathentry kind="src" path="combinazioni-lettere"/>
 	<classpathentry kind="src" path="produttore-consumatore"/>
 	<classpathentry kind="src" path="APPELLO-08072022"/>
+	<classpathentry kind="src" path="problemi-classici"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

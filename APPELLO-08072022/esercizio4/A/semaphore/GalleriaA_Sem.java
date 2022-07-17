@@ -1,23 +1,22 @@
-package esercizio4.semaphore;
+package esercizio4.A.semaphore;
 
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
 import esercizio4.Galleria;
 
-public class GalleriaSem extends Galleria {
+public class GalleriaA_Sem extends Galleria {
 	
 	private Semaphore mutex = new Semaphore(1), termina_visita = new Semaphore(0);
 	
 	private Semaphore posso_entrare_in_galleria;
-	
 	private Semaphore[] guida, puoi_iniziare_visita, visita_terminata;
 	
 	private LinkedList<Thread>[] in_attesa, in_visita;
 	private LinkedList<Thread> in_galleria;
 
 	@SuppressWarnings("unchecked")
-	public GalleriaSem(int capienza, int numero_guide, int numero_visitatori_per_guida) {
+	public GalleriaA_Sem(int capienza, int numero_guide, int numero_visitatori_per_guida) {
 		super(capienza, numero_guide, numero_visitatori_per_guida);
 		
 		guida = new Semaphore[numero_guide];
@@ -106,7 +105,7 @@ public class GalleriaSem extends Galleria {
 	
 	public static void main(String...strings) {
 		final int CAPIENZA_GALLERIA = 200, NUMERO_GUIDE = 5, NUMERO_VISITATORI_PER_GUIDA = 20;
-		Galleria galleria = new GalleriaSem(CAPIENZA_GALLERIA, NUMERO_GUIDE, NUMERO_VISITATORI_PER_GUIDA);
+		Galleria galleria = new GalleriaA_Sem(CAPIENZA_GALLERIA, NUMERO_GUIDE, NUMERO_VISITATORI_PER_GUIDA);
 		final int NUMERO_VISITATORI = 300;
 		galleria.test(NUMERO_VISITATORI);
 	}
