@@ -10,80 +10,52 @@ import lettori_scrittori.Tavola;
 public class TavolaLC extends Tavola {
 
 	private Lock l = new ReentrantLock();
-	private Condition possoMangiare = l.newCondition(),
-					  possoPensare = l.newCondition();
-	private int[] tavola;
-	
-	private LinkedList<Thread> vogliono_mangiare, stanno_mangiando,
-							   vogliono_pensare, stanno_pensando;
+	private Condition[] posso_mangiare;
+	private boolean[] bacchette;
 	
 	public TavolaLC(int numero_posti) {
 		super(numero_posti);
 		
-		tavola = new int[numero_posti];
+		posso_mangiare = new Condition[numero_posti];
 		for(int i=0;i<numero_posti;++i)
-			tavola[i] = 1;
+			posso_mangiare[i] = l.newCondition();
 		
-		vogliono_mangiare = new LinkedList<>();
-		stanno_mangiando = new LinkedList<>();
-		vogliono_pensare = new LinkedList<>();
-		stanno_pensando = new LinkedList<>();
+		bacchette = new boolean[numero_posti];
+		
 	}
 
 	@Override public void mangia(int i) throws InterruptedException {
 		l.lock();
-		Thread filosofo = Thread.currentThread();
 		try {
 			
-			vogliono_mangiare.addLast(filosofo);
+			while(bacchette[i] && bacchette[(i+1)%this.getNumeroPosti()]) {
+				if(bacchette[i])
+					posso_mangiare[i].await();
+				else
+					posso_mangiare[(i+1)%this.getNumeroPosti()].await();
+			}
 			
-			while(!possoMangiare(filosofo, i))
-				possoMangiare.await();
-			
-			vogliono_mangiare.remove(filosofo);
-			tavola[i] = 0;
-			tavola[(i+1)%tavola.length] = 0;
-			stanno_mangiando.addLast(filosofo);
-			
+			bacchette[i] = true;
+			bacchette[(i+1)%this.getNumeroPosti()] = true;
 			
 		}finally {
 			l.unlock();
 		}
-	}
-	
-	private boolean possoMangiare(Thread filosofo, int i) {
-		return vogliono_mangiare.getFirst().equals(filosofo) &&
-			   tavola[i] == 1 && tavola[(i+1)%tavola.length] == 1;
 	}
 	
 
 	@Override public void pensa(int i) throws InterruptedException {
 		l.lock();
-		Thread filosofo = Thread.currentThread();
 		try {
 			
-			vogliono_pensare.addLast(filosofo);
-			
-			while(!possoPensare(filosofo, i))
-				possoPensare.await();
-			
-			vogliono_pensare.remove(filosofo);
-			tavola[i] = 1;
-			tavola[(i+1)%tavola.length] = 1;
-			stanno_mangiando.remove(filosofo);
-			stanno_pensando.addLast(filosofo);
-			
-			possoMangiare.signalAll();
-			possoPensare.signalAll();
+			bacchette[i] = false;
+			bacchette[(i+1)%this.getNumeroPosti()] = false;
+			posso_mangiare[i].notifyAll();
+			posso_mangiare[(i+1)%this.getNumeroPosti()].notifyAll();
 			
 		}finally {
 			l.unlock();
 		}
-	}
-	
-	private boolean possoPensare(Thread filosofo, int i) {
-		return vogliono_pensare.getFirst().equals(filosofo) &&
-			   tavola[i] == 0 && tavola[(i+1)%tavola.length] == 0;
 	}
 	
 	
