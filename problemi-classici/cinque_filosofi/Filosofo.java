@@ -1,4 +1,4 @@
-package lettori_scrittori;
+package cinque_filosofi;
 
 import java.util.Random;
 

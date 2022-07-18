@@ -1,8 +1,8 @@
-package lettori_scrittori.semaphore;
+package cinque_filosofi.semaphore;
 
 import java.util.concurrent.Semaphore;
 
-import lettori_scrittori.Tavola;
+import cinque_filosofi.Tavola;
 
 public class TavolaSem extends Tavola {
 

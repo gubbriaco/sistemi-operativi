@@ -1,11 +1,11 @@
-package lettori_scrittori.lockcondition;
+package cinque_filosofi.lockcondition;
 
 import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import lettori_scrittori.Tavola;
+import cinque_filosofi.Tavola;
 
 public class TavolaLC extends Tavola {
 
